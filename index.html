@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maison</title>
+<meta name="theme-color" content="#eef2f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111716" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Maison">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root {
+  --bg: #eef2f1; --surface: #ffffff; --ink: #18211f; --muted: #5d6b68; --line: #d5dedb;
+  --accent: #1d6a63; --accent-ink: #ffffff; --accent-soft: #d8ebe8;
+  --late: #b3261e; --late-soft: #f9e1de; --today: #8a5a00; --today-soft: #fbedcc;
+  --r-cuisine: #c2571a; --r-sdb: #1f7fb0; --r-salon: #7a4fb5; --r-chambres: #b0397a;
+  --r-linge: #2f8a5a; --r-exterieur: #6b7a1f; --r-courses: #946b2d; --r-autre: #5d6b68;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: -apple-system-headline, -apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  --radius: 12px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111716; --surface: #1a2220; --ink: #e5ecea; --muted: #94a3a0; --line: #2c3835;
+    --accent: #5cc0b5; --accent-ink: #0c1413; --accent-soft: #1d3633;
+    --late: #ff8a80; --late-soft: #3a1c1a; --today: #f0c060; --today-soft: #3a2f14;
+    --r-cuisine: #f08a4b; --r-sdb: #5fb8e6; --r-salon: #b392e8; --r-chambres: #e676b4;
+    --r-linge: #64c48f; --r-exterieur: #b5c75a; --r-courses: #d6a861; --r-autre: #94a3a0;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.45;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-text-size-adjust: 100%;
+}
+[hidden] { display: none !important; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 7.5vw, 34px); letter-spacing: -0.02em; margin: 0; }
+.head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+.date { color: var(--muted); font-size: 15px; }
+.icon-btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; color: var(--ink); padding: 0; flex: none; }
+.icon-btn svg { width: 20px; height: 20px; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; }
+.stat b { display: block; font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.stat.late b { color: var(--late); } .stat.today b { color: var(--today); } .stat.done b { color: var(--accent); }
+
+form.add { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; display: grid; gap: 10px; }
+.add-row { display: flex; gap: 8px; }
+.add-row input { flex: 1; min-width: 0; }
+.add-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.add-opts label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); min-width: 0; }
+input, select, button { font: inherit; color: inherit; }
+input, select { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px; width: 100%; min-width: 0; font-size: 16px; -webkit-appearance: none; appearance: none; min-height: 44px; }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn { border: 0; border-radius: 10px; padding: 10px 16px; background: var(--accent); color: var(--accent-ink); font-weight: 600; cursor: pointer; min-height: 44px; }
+.btn.ghost { background: var(--accent-soft); color: var(--ink); }
+.btn.danger { background: var(--late-soft); color: var(--late); }
+
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; }
+.tabs button { border: 0; background: none; padding: 8px; border-radius: 9px; cursor: pointer; color: var(--muted); font-weight: 500; }
+.tabs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 10px; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+.chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--muted)); }
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.chip .n { opacity: .6; font-variant-numeric: tabular-nums; }
+.toolbar { display: flex; flex-direction: column; gap: 10px; }
+
+.groups { display: flex; flex-direction: column; gap: 14px; }
+.group { display: flex; flex-direction: column; gap: 6px; }
+.group h2 { font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 4px 0 2px; display: flex; gap: 8px; }
+.group.late h2 { color: var(--late); } .group.today h2 { color: var(--today); }
+.list { display: flex; flex-direction: column; gap: 6px; }
+.task { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c, var(--line)); border-radius: var(--radius); padding: 10px 8px 10px 10px; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; }
+.task.done { opacity: .6; }
+.task.done .t-title { text-decoration: line-through; }
+.check { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--c, var(--muted)); background: none; cursor: pointer; display: grid; place-items: center; padding: 0; grid-row: span 2; }
+.check svg { width: 16px; height: 16px; opacity: 0; }
+.task.done .check { background: var(--c); }
+.task.done .check svg { opacity: 1; color: var(--surface); }
+.t-body { min-width: 0; }
+.t-title { font-weight: 600; overflow-wrap: anywhere; }
+.t-meta { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 13px; color: var(--muted); }
+.t-meta .room { color: var(--c); font-weight: 600; }
+.t-side { grid-column: 2; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.due { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.due.late { background: var(--late-soft); color: var(--late); } .due.today { background: var(--today-soft); color: var(--today); }
+.del { border: 0; background: none; color: var(--muted); cursor: pointer; padding: 6px 10px; border-radius: 8px; font-size: 13px; min-height: 32px; margin-left: auto; }
+.del.confirm { background: var(--late-soft); color: var(--late); font-weight: 600; }
+
+.empty { text-align: center; color: var(--muted); padding: 32px 16px; background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius); }
+.empty strong { display: block; color: var(--ink); font-size: 18px; margin-bottom: 4px; }
+.note { font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+
+.sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 20; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 21; background: var(--surface); border-radius: 18px 18px 0 0; padding: 20px max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 20px) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 10px; max-width: 760px; margin: 0 auto; }
+.sheet h3 { margin: 0 0 4px; font-size: 18px; }
+.sheet p { margin: 0 0 6px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="date" id="today-label"></div>
+      <h1>Tâches de la maison</h1>
+    </div>
+    <button class="icon-btn" id="menu-btn" type="button" aria-label="Sauvegarde">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+    </button>
+  </header>
+
+  <section class="stats" aria-label="Résumé">
+    <div class="stat late"><b id="s-late">0</b><span>En retard</span></div>
+    <div class="stat today"><b id="s-today">0</b><span>Aujourd'hui</span></div>
+    <div class="stat done"><b id="s-done">0</b><span>Faites (7 j)</span></div>
+  </section>
+
+  <form class="add" id="add-form" autocomplete="off">
+    <div class="add-row">
+      <input id="title" placeholder="Nouvelle tâche" maxlength="120" required enterkeyhint="done">
+      <button class="btn" type="submit">Ajouter</button>
+    </div>
+    <div class="add-opts">
+      <label>Pièce<select id="room"></select></label>
+      <label>Qui<input id="who" list="who-list" placeholder="Personne" maxlength="40"></label>
+      <label>Fréquence
+        <select id="freq">
+          <option value="once">Une fois</option>
+          <option value="daily">Chaque jour</option>
+          <option value="weekly">Chaque semaine</option>
+          <option value="biweekly">Toutes les 2 sem.</option>
+          <option value="monthly">Chaque mois</option>
+        </select>
+      </label>
+      <label>Échéance<input id="due" type="date"></label>
+    </div>
+    <datalist id="who-list"></datalist>
+  </form>
+
+  <div class="note" id="notice" hidden></div>
+
+  <section class="toolbar">
+    <div class="tabs" role="group" aria-label="Vue">
+      <button type="button" data-view="todo" aria-pressed="true">À faire</button>
+      <button type="button" data-view="all" aria-pressed="false">Toutes</button>
+      <button type="button" data-view="done" aria-pressed="false">Terminées</button>
+    </div>
+    <div class="chips" id="room-chips"></div>
+  </section>
+
+  <main id="content"></main>
+</div>
+
+<div class="sheet-bg" id="sheet-bg" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-labelledby="sheet-title" hidden>
+  <h3 id="sheet-title">Sauvegarde</h3>
+  <p>Les tâches sont enregistrées sur cet iPhone. Exportez une copie de temps en temps (Fichiers, iCloud Drive, AirDrop) pour ne rien perdre.</p>
+  <button class="btn" id="export-btn" type="button">Exporter les tâches</button>
+  <button class="btn ghost" id="import-btn" type="button">Importer une sauvegarde</button>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <button class="btn ghost" id="close-sheet" type="button">Fermer</button>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const KEY = "taches-maison-v1";
+  const ROOMS = [
+    { id: "cuisine", label: "Cuisine" }, { id: "sdb", label: "Salle de bain" }, { id: "salon", label: "Salon" },
+    { id: "chambres", label: "Chambres" }, { id: "linge", label: "Linge" }, { id: "exterieur", label: "Extérieur" },
+    { id: "courses", label: "Courses" }, { id: "autre", label: "Autre" },
+  ];
+  const ROOM = Object.fromEntries(ROOMS.map(r => [r.id, r]));
+  const FREQ = { once: "", daily: "Chaque jour", weekly: "Chaque semaine", biweekly: "Toutes les 2 sem.", monthly: "Chaque mois" };
+
+  // ---------- dates ----------
+  const pad = n => String(n).padStart(2, "0");
+  const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const todayStr = () => ymd(new Date());
+  const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return ymd(d); };
+  const diffDays = (a, b) => Math.round((parse(a) - parse(b)) / 86400000);
+  function nextDue(freq, from) {
+    if (freq === "daily") return addDays(from, 1);
+    if (freq === "weekly") return addDays(from, 7);
+    if (freq === "biweekly") return addDays(from, 14);
+    if (freq === "monthly") { const d = parse(from), day = d.getDate(); d.setDate(1); d.setMonth(d.getMonth() + 1); d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate())); return ymd(d); }
+    return "";
+  }
+  const DAYS = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
+  const MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  function dueLabel(due) {
+    const d = diffDays(due, todayStr());
+    if (d < 0) return { text: d === -1 ? "Hier" : "En retard de " + (-d) + " j", cls: "late" };
+    if (d === 0) return { text: "Aujourd'hui", cls: "today" };
+    if (d === 1) return { text: "Demain", cls: "" };
+    const dt = parse(due);
+    return { text: d < 7 ? DAYS[dt.getDay()] + " " + dt.getDate() : dt.getDate() + " " + MONTHS[dt.getMonth()], cls: "" };
+  }
+  function setTodayLabel() {
+    const d = new Date();
+    const full = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"][d.getDay()];
+    const mo = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"][d.getMonth()];
+    $("today-label").textContent = full + " " + d.getDate() + " " + mo;
+  }
+
+  // ---------- storage ----------
+  const $ = id => document.getElementById(id);
+  let tasks = load();
+  function load() {
+    try { const v = JSON.parse(localStorage.getItem(KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(tasks)); }
+    catch (e) { notice("Impossible d'enregistrer : l'espace de stockage est plein ou bloqué."); }
+    render();
+  }
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+  let view = "todo", roomFilter = "", pendingDelete = null;
+
+  function el(tag, props, ...kids) {
+    const n = document.createElement(tag);
+    if (props) for (const k in props) {
+      if (k === "class") n.className = props[k];
+      else if (k === "style") n.setAttribute("style", props[k]);
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), props[k]);
+      else if (props[k] != null) n.setAttribute(k, props[k]);
+    }
+    for (const c of kids) if (c != null) n.append(c);
+    return n;
+  }
+  let noticeTimer;
+  function notice(text) {
+    const n = $("notice"); clearTimeout(noticeTimer);
+    if (!text) { n.hidden = true; return; }
+    n.hidden = false; n.textContent = text;
+    noticeTimer = setTimeout(() => { n.hidden = true; }, 6000);
+  }
+
+  for (const r of ROOMS) $("room").append(el("option", { value: r.id }, r.label));
+
+  // ---------- logic ----------
+  const isDone = t => t.freq === "once" ? !!t.done : t.lastDone === todayStr();
+  function bucket(t) {
+    if (isDone(t)) return "doneToday";
+    if (!t.due) return "nodate";
+    const d = diffDays(t.due, todayStr());
+    return d < 0 ? "late" : d === 0 ? "today" : d <= 7 ? "week" : "later";
+  }
+  function patch(id, p) { tasks = tasks.map(t => t.id === id ? Object.assign({}, t, p) : t); save(); }
+  function toggle(t) {
+    const today = todayStr();
+    if (navigator.vibrate) navigator.vibrate(10);
+    if (t.freq === "once") patch(t.id, t.done ? { done: false, doneAt: "" } : { done: true, doneAt: today });
+    else if (t.lastDone === today) patch(t.id, { lastDone: t.prevLastDone || "", due: t.prevDue || t.due, prevDue: "", prevLastDone: "", doneAt: "" });
+    else {
+      const base = t.due && t.due > today ? t.due : today;
+      patch(t.id, { prevDue: t.due || "", prevLastDone: t.lastDone || "", lastDone: today, doneAt: today, due: nextDue(t.freq, base) });
+    }
+  }
+  function remove(t) {
+    if (pendingDelete !== t.id) {
+      pendingDelete = t.id; render();
+      setTimeout(() => { if (pendingDelete === t.id) { pendingDelete = null; render(); } }, 3500);
+      return;
+    }
+    pendingDelete = null;
+    tasks = tasks.filter(x => x.id !== t.id); save();
+  }
+
+  // ---------- render ----------
+  const CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>';
+  function taskRow(t) {
+    const room = ROOM[t.room] || ROOM.autre, done = isDone(t);
+    const check = el("button", { class: "check", type: "button", "aria-label": (done ? "Marquer à faire : " : "Marquer fait : ") + t.title, onclick: () => toggle(t) });
+    check.innerHTML = CHECK;
+    const side = el("div", { class: "t-side" });
+    if (done) side.append(el("span", { class: "due" }, t.freq === "once" ? "Fait" : "Prochaine : " + (t.due ? dueLabel(t.due).text.toLowerCase() : "—")));
+    else if (t.due) { const l = dueLabel(t.due); side.append(el("span", { class: "due " + l.cls }, l.text)); }
+    const confirming = pendingDelete === t.id;
+    side.append(el("button", { class: "del" + (confirming ? " confirm" : ""), type: "button", "aria-label": "Supprimer " + t.title, onclick: () => remove(t) }, confirming ? "Supprimer ?" : "✕"));
+    return el("div", { class: "task" + (done ? " done" : ""), style: "--c: var(--r-" + room.id + ")" },
+      check,
+      el("div", { class: "t-body" }, el("div", { class: "t-title" }, t.title),
+        el("div", { class: "t-meta" }, el("span", { class: "room" }, room.label), t.who ? el("span", null, t.who) : null, t.freq !== "once" ? el("span", null, "↻ " + FREQ[t.freq]) : null)),
+      side);
+  }
+  function group(title, cls, items) {
+    if (!items.length) return null;
+    return el("section", { class: "group " + (cls || "") }, el("h2", null, title, el("span", null, String(items.length))), el("div", { class: "list" }, ...items.map(taskRow)));
+  }
+  const byDue = (a, b) => (a.due || "9999").localeCompare(b.due || "9999") || a.title.localeCompare(b.title, "fr");
+
+  function render() {
+    setTodayLabel();
+    const weekAgo = addDays(todayStr(), -6);
+    let late = 0, tod = 0, doneWeek = 0;
+    for (const t of tasks) { const b = bucket(t); if (b === "late") late++; if (b === "today") tod++; if (t.doneAt && t.doneAt >= weekAgo) doneWeek++; }
+    $("s-late").textContent = late; $("s-today").textContent = tod; $("s-done").textContent = doneWeek;
+
+    $("who-list").replaceChildren(...[...new Set(tasks.map(t => t.who).filter(Boolean))].sort().map(w => el("option", { value: w })));
+
+    const open = tasks.filter(t => !isDone(t));
+    const chips = [el("button", { class: "chip", type: "button", "aria-pressed": String(!roomFilter), onclick: () => { roomFilter = ""; render(); } }, "Toutes les pièces")];
+    for (const r of ROOMS) {
+      const n = open.filter(t => (t.room || "autre") === r.id).length;
+      if (!n && roomFilter !== r.id) continue;
+      chips.push(el("button", { class: "chip", type: "button", style: "--c: var(--r-" + r.id + ")", "aria-pressed": String(roomFilter === r.id), onclick: () => { roomFilter = roomFilter === r.id ? "" : r.id; render(); } }, el("i"), r.label, el("span", { class: "n" }, String(n))));
+    }
+    $("room-chips").replaceChildren(...chips);
+
+    const list = tasks.filter(t => !roomFilter || (t.room || "autre") === roomFilter);
+    let out = [];
+    if (view === "todo") {
+      const g = { late: [], today: [], week: [], later: [], nodate: [], doneToday: [] };
+      for (const t of list) g[bucket(t)].push(t);
+      for (const k in g) g[k].sort(byDue);
+      out = [group("En retard", "late", g.late), group("Aujourd'hui", "today", g.today), group("Cette semaine", "", g.week), group("Plus tard", "", g.later), group("Sans date", "", g.nodate), group("Fait aujourd'hui", "", g.doneToday)];
+    } else if (view === "all") {
+      const byRoom = {};
+      for (const t of list) (byRoom[t.room || "autre"] = byRoom[t.room || "autre"] || []).push(t);
+      out = ROOMS.filter(r => byRoom[r.id]).map(r => group(r.label, "", byRoom[r.id].sort(byDue)));
+    } else {
+      out = [group("Dernières tâches faites", "", list.filter(t => t.doneAt).sort((a, b) => b.doneAt.localeCompare(a.doneAt)))];
+    }
+    out = out.filter(Boolean);
+    if (!out.length) {
+      const msg = !tasks.length ? ["Aucune tâche pour l'instant", "Ajoutez la première avec le champ ci-dessus : vaisselle, poubelles, lessive…"]
+        : view === "done" ? ["Rien de terminé", "Les tâches cochées apparaîtront ici."]
+        : ["Tout est fait", roomFilter ? "Rien à faire dans cette pièce." : "Plus rien à faire. Profitez-en."];
+      $("content").replaceChildren(el("div", { class: "empty" }, el("strong", null, msg[0]), msg[1]));
+    } else $("content").replaceChildren(el("div", { class: "groups" }, ...out));
+  }
+
+  // ---------- events ----------
+  document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+    view = b.dataset.view;
+    document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  }));
+  $("due").value = todayStr();
+  $("add-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const title = $("title").value.trim();
+    if (!title) return;
+    tasks.push({
+      id: "t" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      title, room: $("room").value, who: $("who").value.trim(), freq: $("freq").value,
+      due: $("due").value || "", done: false, doneAt: "", lastDone: "", createdAt: new Date().toISOString(),
+    });
+    save();
+    $("title").value = ""; $("title").blur();
+  });
+  // Re-render when the app comes back to the foreground (the day may have changed).
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) { tasks = load(); render(); } });
+
+  // ---------- backup sheet ----------
+  const openSheet = v => { $("sheet").hidden = !v; $("sheet-bg").hidden = !v; };
+  $("menu-btn").addEventListener("click", () => openSheet(true));
+  $("close-sheet").addEventListener("click", () => openSheet(false));
+  $("sheet-bg").addEventListener("click", () => openSheet(false));
+  $("export-btn").addEventListener("click", async () => {
+    const name = "taches-maison-" + todayStr() + ".json";
+    const blob = new Blob([JSON.stringify({ app: "taches-maison", version: 1, exportedAt: new Date().toISOString(), tasks }, null, 2)], { type: "application/json" });
+    const file = new File([blob], name, { type: "application/json" });
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: name }); openSheet(false); return; }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    openSheet(false);
+  });
+  $("import-btn").addEventListener("click", () => $("import-file").click());
+  $("import-file").addEventListener("change", async e => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      const list = Array.isArray(data) ? data : data.tasks;
+      if (!Array.isArray(list) || list.some(t => !t || typeof t.title !== "string" || !t.id)) throw new Error("format");
+      const byId = new Map(tasks.map(t => [t.id, t]));
+      for (const t of list) byId.set(String(t.id), Object.assign({}, t, { id: String(t.id), title: t.title.slice(0, 120) }));
+      tasks = [...byId.values()]; save();
+      openSheet(false);
+      notice(list.length + " tâche(s) importée(s).");
+    } catch (err) {
+      openSheet(false);
+      notice("Ce fichier n'est pas une sauvegarde valide de l'app.");
+    }
+  });
+
+  render();
+
+  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
